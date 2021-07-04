@@ -4,8 +4,11 @@ import android.util.Log
 import java.util.*
 
 class SecretNumber {
+    private val TAG = SecretNumber::class.java.simpleName
+
     // <field> 答案 </field>
     private var secret = ""
+    // <field> 使用者輸入 </field>
     var input = ""
 
     // <field> 使用者猜的次數 </field>
@@ -22,7 +25,7 @@ class SecretNumber {
             secret += numbers.removeAt(number).toString()
         }
 
-        Log.d("SecretNumber", "generateSecret: $secret")
+        Log.d(TAG, "generateSecret: $secret")
     }
 
     // <summary> 驗證使用者輸入 </summary>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">猜數字</string>
+    <string name="input_message">請輸入答案</string>
+    <string name="edt_input_hint">1234</string>
+    <string name="btn_ok">確認</string>
+    <string name="title_bingo">正確</string>
+    <string name="title_try_again">請再猜一次</string>
+</resources>

@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">Guess</string>
+    <string name="app_name">4digits</string>
     <string name="input_message">Please Input your number</string>
     <string name="edt_input_hint">1234</string>
     <string name="btn_ok">OK</string>
+    <string name="title_bingo">Bingo</string>
+    <string name="title_try_again">Try Again</string>
 </resources>

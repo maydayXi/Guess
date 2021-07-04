@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    val secretNumber = SecretNumber()
+    private val secretNumber = SecretNumber()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
         // 驗證使用者輸入
         val result = secretNumber.validate()
         val title = when(result) {
-            "4A0B" -> "Bingo"
-            else -> "Try Again"
+            "4A0B" -> getString(R.string.title_bingo)
+            else -> getString(R.string.title_try_again)
         }
 
 //        Toast.makeText(this, result, Toast.LENGTH_LONG)
