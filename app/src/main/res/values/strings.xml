@@ -15,4 +15,6 @@
     <string name="lbl_count">Count</string>
     <string name="lbl_guess">Guess</string>
     <string name="lbl_result">Result</string>
+    <string name="title_excellent">Excellent!</string>
+    <string name="msg_excellent">The number is </string>
 </resources>

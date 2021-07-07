@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.wei.guess.databinding.ActivityMaterialMainBinding
 import kotlinx.android.synthetic.main.content_material_main.*
 
@@ -12,6 +13,8 @@ class MaterialMainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMaterialMainBinding
     private val secretNumber = SecretNumber()
+    private var dataSet = arrayListOf<ItemModel>()
+    private lateinit var dataAdapter: ItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,16 +24,26 @@ class MaterialMainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
+
+        // Initial First Row Data
+        dataSet.add(ItemModel(count = "Count", guess = "Guess", result = "Result"))
+        dataAdapter = ItemAdapter(dataSet)
+
+        rycResult.layoutManager = LinearLayoutManager(this)
+        rycResult.setHasFixedSize(false)
+
+        rycResult.adapter = dataAdapter
+
         // 重設所有畫面元件
         resetViews()
 
         // 重玩事件
-        binding.fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.title_replay))
                 .setMessage(getString(R.string.msg_replay))
                 .setPositiveButton(getString(R.string.dialog_btn_yes)) {
-                    dialog, view ->
+                        _, _ ->
                     // 重設所有資料
                     resetViews()
                     Toast.makeText(this, getString(R.string.toast_msg), Toast.LENGTH_SHORT).show()
@@ -50,31 +63,44 @@ class MaterialMainActivity : AppCompatActivity() {
         result = secretNumber.validate()
 
         // 判斷結果
+
         if(result.contains("4A")) {
-            title = getString(R.string.title_bingo)
-            result += "\n${secretNumber.answer}"
+            if(secretNumber.guess_cnt < 3) {
+                title = getString(R.string.title_excellent)
+                result = getString(R.string.msg_excellent) + secretNumber.answer
+            }
+            else {
+                title = getString(R.string.title_bingo)
+                result += "\n${secretNumber.answer}"
+            }
         }
         else
             title = getString(R.string.title_try_again)
 
-        // 顯示結果
+        // Show Result
         AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(result)
             .show()
 
-        lblCount.append("\n${secretNumber.guess_cnt}")
-        lblGuess.append("\n${secretNumber.input}")
-        lblResult.append("\n$result")
+        result = if(title.contains(getString(R.string.title_excellent)))
+            "4A0B"
+        else
+            result
+
+        // 視覺元件處理
+        // 新增一筆結果
+        dataAdapter.add(ItemModel(count = secretNumber.guess_cnt.toString(),
+            guess = secretNumber.input, result = result))
+        edtInput.setText("")
     }
 
     // <summary> 重設畫面元件，遊戲資料 </summary>
     private fun resetViews() {
         edtInput.setText("")
-        lblCount.text = getString(R.string.lbl_count)
-        lblGuess.text = getString(R.string.lbl_guess)
-        lblResult.text = getString(R.string.lbl_result)
+        dataAdapter.reset()
         secretNumber.input = ""
+        secretNumber.guess_cnt = 0
         secretNumber.generateSecret()
     }
 }

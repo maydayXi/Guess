@@ -16,4 +16,6 @@
     <string name="lbl_count">次數</string>
     <string name="lbl_guess">輸入</string>
     <string name="lbl_result">結果</string>
+    <string name="title_excellent">太棒了！</string>
+    <string name="msg_excellent">"數字就是 "</string>
 </resources>
