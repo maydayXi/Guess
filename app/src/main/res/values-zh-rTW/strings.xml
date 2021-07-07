@@ -6,4 +6,14 @@
     <string name="btn_ok">確認</string>
     <string name="title_bingo">正確</string>
     <string name="title_try_again">請再猜一次</string>
+    <string name="btn_replay">再玩一次</string>
+    <string name="title_activity_material_main">猜數字</string>
+    <string name="title_replay">你確定嗎？</string>
+    <string name="msg_replay">重玩</string>
+    <string name="dialog_btn_yes">是</string>
+    <string name="dialog_btn_no">否</string>
+    <string name="toast_msg">重設完成</string>
+    <string name="lbl_count">次數</string>
+    <string name="lbl_guess">輸入</string>
+    <string name="lbl_result">結果</string>
 </resources>
