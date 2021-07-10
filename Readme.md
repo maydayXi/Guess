@@ -23,6 +23,7 @@
 
 <img src="https://i.imgur.com/IUO5F10.png?1" title="Replay Dialog"/>&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/Shq1f3F.png?1" title="Replay" />
 
-### HIstory
+### History
 
 - 2021-07-08 v1.0：基本功能完成
+- 2021-07-11 v1.5：增加記錄功能，新增 Room 資料庫模組
