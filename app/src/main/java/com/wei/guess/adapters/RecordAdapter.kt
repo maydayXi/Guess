@@ -29,9 +29,9 @@ class RecordAdapter(private val dataSet: ArrayList<RecordViewModel>)
 
     // <summary> Replace the content of a view </summary>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.lblRank.text = dataSet[position].rank.toString()
+        holder.lblRank.text = dataSet[position].rank
         holder.lblCount.text = dataSet[position].count
-        holder.lblDate.text = dataSet[position].datetime.toString()
+        holder.lblDate.text = dataSet[position].datetime
     }
 
     // <summary> 取得資料筆數 </summary>

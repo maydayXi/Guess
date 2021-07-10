@@ -1,6 +1,5 @@
 package com.wei.guess.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 // <summary>

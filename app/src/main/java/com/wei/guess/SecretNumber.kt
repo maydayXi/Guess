@@ -1,7 +1,6 @@
 package com.wei.guess
 
 import android.util.Log
-import java.util.*
 
 class SecretNumber {
     private val TAG = SecretNumber::class.java.simpleName

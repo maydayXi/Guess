@@ -1,7 +1,5 @@
 package com.wei.guess.viewmodels
 
-import java.util.*
-
 // <summary> 資料類別：每一筆猜數字結果 </summary>
 // <param name="count"> 使用者猜次數 </param>
 // <param name="guess"> 使用者輸入數字 </param>

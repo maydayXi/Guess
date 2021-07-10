@@ -1,7 +1,6 @@
 package com.wei.guess
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -9,12 +8,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wei.guess.adapters.RecordAdapter
 import com.wei.guess.db.DBRepository
-import com.wei.guess.db.RecordDataModel
 import com.wei.guess.db.ioThread
 import com.wei.guess.viewmodels.RecordViewModel
 import kotlinx.android.synthetic.main.activity_record.*
-import kotlinx.android.synthetic.main.content_material_main.*
-import kotlin.collections.ArrayList
 
 class RecordActivity : AppCompatActivity() {
 
@@ -98,7 +94,7 @@ class RecordActivity : AppCompatActivity() {
     // <return> true / false </return>
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (item.itemId == android.R.id.home) {
-            finish();
+            finish()
             true
         } else {
             super.onOptionsItemSelected(item)

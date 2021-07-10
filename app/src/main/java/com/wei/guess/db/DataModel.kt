@@ -3,7 +3,6 @@ package com.wei.guess.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 // <summary>
 //  資料類別：存入資料庫的紀錄
