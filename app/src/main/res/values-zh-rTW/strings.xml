@@ -12,10 +12,16 @@
     <string name="msg_replay">重玩</string>
     <string name="dialog_btn_yes">是</string>
     <string name="dialog_btn_no">否</string>
-    <string name="toast_msg">重設完成</string>
     <string name="lbl_count">次數</string>
     <string name="lbl_guess">輸入</string>
     <string name="lbl_result">結果</string>
     <string name="title_excellent">太棒了！</string>
     <string name="msg_excellent">"數字就是 "</string>
+    <string name="toolbar_title">玩家紀錄</string>
+    <string name="toolbar_btn_back">返回</string>
+    <string name="record_dialog_title">您的紀錄</string>
+    <string name="record_dialog_times">次</string>
+    <string name="toast_msg_replay">資料已重設</string>
+    <string name="lbl_rank">名次</string>
+    <string name="lbl_datetime">時間</string>
 </resources>

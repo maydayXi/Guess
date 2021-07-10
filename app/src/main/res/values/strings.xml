@@ -11,10 +11,16 @@
     <string name="msg_replay">Replay ?</string>
     <string name="dialog_btn_yes">YES</string>
     <string name="dialog_btn_no">NO</string>
-    <string name="toast_msg">Data Reset Finished.</string>
+    <string name="toast_msg_replay">Data Reset Finished.</string>
     <string name="lbl_count">Count</string>
     <string name="lbl_guess">Guess</string>
     <string name="lbl_result">Result</string>
+    <string name="lbl_rank">Rank</string>
+    <string name="lbl_datetime">Datetime</string>
     <string name="title_excellent">Excellent!</string>
     <string name="msg_excellent">The number is </string>
+    <string name="toolbar_title">Record</string>
+    <string name="toolbar_btn_back">Back</string>
+    <string name="record_dialog_title">Your Record</string>
+    <string name="record_dialog_times">Times</string>
 </resources>

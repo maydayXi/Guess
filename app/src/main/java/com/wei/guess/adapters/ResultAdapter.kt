@@ -1,30 +1,33 @@
-package com.wei.guess
+package com.wei.guess.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.row_item_model.view.*
+import com.wei.guess.R
+import com.wei.guess.viewmodels.ResultViewModel
+import kotlinx.android.synthetic.main.row_result_view.view.*
 
-// <summary> Data Adapter </summary>
-class ItemAdapter(private var dataSet: ArrayList<ItemModel>):
-    RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+// <summary> Result Data Adapter </summary>
+// <param name="dataSet"> 要介接的資料 </summary>
+class ResultAdapter(private var dataSet: ArrayList<ResultViewModel>):
+    RecyclerView.Adapter<ResultAdapter.ViewHolder>() {
 
     // <summary> Initial View Component </summary>
+    // <param name="view">  </param>
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val lblCount = view.lblCount
-        val lblGuess = view.lblGuess
-        val lblResult = view.lblResult
+        val lblCount = view.lblCountRecord!!
+        val lblGuess = view.lblGuess!!
+        val lblResult = view.lblResult!!
     }
 
     // To display data on the view
     // <summary> Create new views </summary>
-    // <param name=""> </param>
-    // <param name=""> </param>
+    // <param name="parent"> </param>
+    // <param name="viewType"> </param>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_item_model, parent, false)
+            .inflate(R.layout.row_result_view, parent, false)
 
         return ViewHolder(view)
     }
@@ -44,19 +47,23 @@ class ItemAdapter(private var dataSet: ArrayList<ItemModel>):
 
     // <summary> 新增資料 </summary>
     // <param name="item"> [count, guess, result] </param>
-    fun add(item: ItemModel) {
-        dataSet.add(item)
+    fun add(result: ResultViewModel) {
+        dataSet.add(result)
         notifyItemInserted(dataSet.size)
     }
 
     // <summary> 重設資料 </summary>
-    fun reset() {
+    // <param name="count"> 第一欄名稱 </param>
+    // <param name="guess"> 第二欄名稱 </param>
+    // <param name="result"> 第三欄名稱 </param>
+    fun reset(count: String, guess: String, result: String) {
         dataSet = arrayListOf(
-            ItemModel(
-                count = "Count",
-                guess = "Guess",
-                result = "Result"
-        ))
+            ResultViewModel(
+                count = count,
+                guess = guess,
+                result = result
+            )
+        )
         notifyDataSetChanged()
     }
 }

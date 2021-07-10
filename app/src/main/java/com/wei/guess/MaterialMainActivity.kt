@@ -1,20 +1,43 @@
 package com.wei.guess
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.util.DBUtil
+import com.wei.guess.adapters.ResultAdapter
 import com.wei.guess.databinding.ActivityMaterialMainBinding
+import com.wei.guess.db.DBRepository
+import com.wei.guess.db.RecordDataModel
+import com.wei.guess.db.ioThread
+import com.wei.guess.viewmodels.ResultViewModel
 import kotlinx.android.synthetic.main.content_material_main.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MaterialMainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMaterialMainBinding
+    // SecretNumber Instance
     private val secretNumber = SecretNumber()
-    private var dataSet = arrayListOf<ItemModel>()
-    private lateinit var dataAdapter: ItemAdapter
+    // Result View Model Dataset
+    private var dataSet = arrayListOf<ResultViewModel>()
+    // Database Manipulation Instance
+    private lateinit var repository: DBRepository
+    // Data Adapter Instance
+    private lateinit var dataAdapter: ResultAdapter
+
+    // Local Variable
+    private val dateFormat =    // Date Format Instance
+        SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+    private var count = ""      // User Guess Count
+    private var guess = ""      // User Input
+    private var result = ""     // SecretNumber Output
+    private var now = ""        // Now string
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,16 +47,12 @@ class MaterialMainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
+        repository = DBRepository(this)
 
-        // Initial First Row Data
-        dataSet.add(ItemModel(count = "Count", guess = "Guess", result = "Result"))
-        dataAdapter = ItemAdapter(dataSet)
-
-        rycResult.layoutManager = LinearLayoutManager(this)
-        rycResult.setHasFixedSize(false)
-
-        rycResult.adapter = dataAdapter
-
+        // 初始使用資料
+        initialData()
+        // 初始視覺元件
+        precessView()
         // 重設所有畫面元件
         resetViews()
 
@@ -46,13 +65,14 @@ class MaterialMainActivity : AppCompatActivity() {
                         _, _ ->
                     // 重設所有資料
                     resetViews()
-                    Toast.makeText(this, getString(R.string.toast_msg), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.toast_msg_replay), Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton(getString(R.string.dialog_btn_no), null)
                 .show()
         }
     }
 
+    // <summary> 驗證按鈕事件 </summary>
     fun validateInput(view: View) {
         var result = ""
         var title = ""
@@ -63,11 +83,10 @@ class MaterialMainActivity : AppCompatActivity() {
         result = secretNumber.validate()
 
         // 判斷結果
-
         if(result.contains("4A")) {
             if(secretNumber.guess_cnt < 3) {
                 title = getString(R.string.title_excellent)
-                result = getString(R.string.msg_excellent) + secretNumber.answer
+                result = "${getString(R.string.msg_excellent)} ${secretNumber.answer}"
             }
             else {
                 title = getString(R.string.title_bingo)
@@ -81,7 +100,26 @@ class MaterialMainActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(result)
-            .show()
+            .let {
+                if(title.contains(getString(R.string.title_bingo)) ||
+                    title.contains(getString(R.string.title_excellent))) {
+                    it.setPositiveButton(getString(R.string.btn_ok)) {
+                        _, _ ->
+                        edtInput.isEnabled = false
+                        // 產生時間字串
+                        now = dateFormat.format(Calendar.getInstance().time)
+                        // 新增一筆遊戲紀錄
+                        val record = RecordDataModel(secretNumber.guess_cnt, now)
+                        ioThread { repository.insertRecord(record) }
+                        // 導向紀錄畫面
+                        val intent = Intent(this, RecordActivity::class.java)
+                        intent.putExtra("GuessCount", secretNumber.guess_cnt)
+                        startActivity(intent)
+                    }.show()
+                }
+                else
+                    it.show()
+            }
 
         result = if(title.contains(getString(R.string.title_excellent)))
             "4A0B"
@@ -90,15 +128,46 @@ class MaterialMainActivity : AppCompatActivity() {
 
         // 視覺元件處理
         // 新增一筆結果
-        dataAdapter.add(ItemModel(count = secretNumber.guess_cnt.toString(),
-            guess = secretNumber.input, result = result))
+        dataAdapter.add(
+            ResultViewModel(count = secretNumber.guess_cnt.toString(),
+            guess = secretNumber.input, result = result)
+        )
         edtInput.setText("")
+    }
+
+    // <summary> Initial View Components </summary>
+    private fun precessView() {
+        rycResult.apply {
+            layoutManager = LinearLayoutManager(this.context)
+            setHasFixedSize(true)
+            addItemDecoration(DividerItemDecoration(this.context,
+                DividerItemDecoration.VERTICAL))
+            dataAdapter = ResultAdapter(dataSet)
+            adapter = dataAdapter
+        }
+    }
+
+    // <summary> Initial Data </summary>
+    private fun initialData() {
+        count = getString(R.string.lbl_count)
+        guess = getString(R.string.lbl_guess)
+        result = getString(R.string.lbl_result)
+
+        // Initial First Row Data
+        dataSet.add(
+            ResultViewModel(
+                count = count,
+                guess = guess,
+                result = result
+            )
+        )
     }
 
     // <summary> 重設畫面元件，遊戲資料 </summary>
     private fun resetViews() {
         edtInput.setText("")
-        dataAdapter.reset()
+        edtInput.isEnabled = true
+        dataAdapter.reset(count, guess, result)
         secretNumber.input = ""
         secretNumber.guess_cnt = 0
         secretNumber.generateSecret()

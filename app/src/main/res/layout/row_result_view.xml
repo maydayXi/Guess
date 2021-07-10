@@ -3,35 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="48dp">
 
     <TextView
-        android:id="@+id/lblCount"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/lblCountRecord"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
         android:layout_marginStart="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="@string/lbl_count"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
         android:id="@+id/lblGuess"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
         android:layout_marginStart="50dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="@string/lbl_guess"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
         android:id="@+id/lblResult"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
         android:layout_marginStart="50dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="@string/lbl_result"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 </LinearLayout>
