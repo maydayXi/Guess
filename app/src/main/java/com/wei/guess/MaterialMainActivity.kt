@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.util.DBUtil
 import com.wei.guess.adapters.ResultAdapter
 import com.wei.guess.databinding.ActivityMaterialMainBinding
 import com.wei.guess.db.DBRepository
@@ -23,7 +22,7 @@ class MaterialMainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMaterialMainBinding
     // SecretNumber Instance
-    private val secretNumber = SecretNumber()
+     val secretNumber = SecretNumber()
     // Result View Model Dataset
     private var dataSet = arrayListOf<ResultViewModel>()
     // Database Manipulation Instance

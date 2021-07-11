@@ -1,5 +1,6 @@
 package com.wei.guess.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import kotlinx.android.synthetic.main.row_record_view.view.*
 
 // <summary> Record Data Adapter </summary>
 // <param name="dataSet"> 要介接的資料 </param>
-class RecordAdapter(private val dataSet: ArrayList<RecordViewModel>)
+class RecordAdapter(private var dataSet: ArrayList<RecordViewModel>)
     : RecyclerView.Adapter<RecordAdapter.ViewHolder>() {
 
     // <summary> Initial View Component </summary>
@@ -36,4 +37,16 @@ class RecordAdapter(private val dataSet: ArrayList<RecordViewModel>)
 
     // <summary> 取得資料筆數 </summary>
     override fun getItemCount() = dataSet.size
+
+    // <summary> 刪除所有資料 </summary>
+    fun reset(rank: String, count: String, datetime: String) {
+        dataSet = arrayListOf(
+            RecordViewModel(
+                rank = rank,
+                count = count,
+                datetime = datetime
+            )
+        )
+        notifyDataSetChanged()
+    }
 }

@@ -24,4 +24,7 @@
     <string name="toast_msg_replay">資料已重設</string>
     <string name="lbl_rank">名次</string>
     <string name="lbl_datetime">時間</string>
+    <string name="fab_delete">刪除資料</string>
+    <string name="dialog_title_delete">刪除</string>
+    <string name="dialog_msg_delete">刪除所有資料</string>
 </resources>

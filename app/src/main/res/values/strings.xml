@@ -23,4 +23,7 @@
     <string name="toolbar_btn_back">Back</string>
     <string name="record_dialog_title">Your Record</string>
     <string name="record_dialog_times">Times</string>
+    <string name="fab_delete">Delete</string>
+    <string name="dialog_title_delete">Delete</string>
+    <string name="dialog_msg_delete">Will be delete all record</string>
 </resources>

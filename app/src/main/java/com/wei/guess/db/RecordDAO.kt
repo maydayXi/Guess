@@ -26,5 +26,5 @@ interface RecordDAO {
     // <summary> Delete All Data </summary>
     // <param name="records"> Record Data Model List what you want to delete </param>
     @Delete
-    fun deleteAll(records: ArrayList<RecordDataModel>)
+    fun deleteAll(records: List<RecordDataModel>)
 }

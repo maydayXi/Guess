@@ -1,7 +1,9 @@
 package com.wei.guess
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -35,6 +37,24 @@ class RecordActivity : AppCompatActivity() {
         initialData()
         // 視覺元件初始化
         processViews()
+
+        // 刪除鈕事件
+        fabDelete.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.dialog_title_delete))
+                .setMessage(getString(R.string.dialog_msg_delete))
+                .setPositiveButton(getString(R.string.dialog_btn_yes)) {
+                        _, _ ->
+                    // 刪除所有紀錄
+                    ioThread { repository.deleteAllRecord() }
+//                    reset()
+//                    Toast.makeText(this,
+//                        "Record delete finished",
+//                        Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton(getString(R.string.dialog_btn_no), null)
+                .show()
+        }
     }
 
     // <summary> Initial Variable </summary>
@@ -87,6 +107,11 @@ class RecordActivity : AppCompatActivity() {
             adapter = RecordAdapter(recordSet)
             adapter = adapter
         }
+    }
+
+    // <summary> 重設排名資料 </summary>
+    private fun reset() {
+        adapter.reset(rank = rank, count = count, datetime = datetime)
     }
 
     // <summary> 返回按鈕事件 </summary>

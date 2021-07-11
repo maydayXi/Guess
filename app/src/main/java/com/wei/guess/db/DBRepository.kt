@@ -12,7 +12,7 @@ class DBRepository constructor(context: Context) {
     private val recordDAO = db.recordDAO()
 
     // <summary> 取得所有資料 </summary>
-    // private fun getAllRecords() = recordDAO.getAll()
+     private fun getAllRecords() = recordDAO.getAll()
 
     // <summary> 取得排名資料 </summary>
     fun fetRankRecord() = recordDAO.getAllOrderByRank()
@@ -21,7 +21,5 @@ class DBRepository constructor(context: Context) {
     fun insertRecord(record: RecordDataModel) = recordDAO.insert(record)
 
     // <summary> 刪除所有紀錄 </summary>
-    // fun deleteAllRecord() = recordDAO.deleteAll(getAllRecords())
-
-
+     fun deleteAllRecord() = recordDAO.deleteAll(getAllRecords())
 }
