@@ -7,7 +7,8 @@
 
 ### ScreenShot
 
-<img src="https://i.imgur.com/vKW5yzX.png?1" title="Game Start" />&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/qQMREpS.png?1" title="Result" style="width: 35%; display: inline-block;" />&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/qD8by0l.png?1" title="Game Finished"/>&nbsp;&nbsp;&nbsp<img src="https://i.imgur.com/Kiw0SfG.png?1" title="source: imgur.com" />
+<img src="https://i.imgur.com/vKW5yzX.png?1" title="Game Start" />&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/qQMREpS.png?1" title="Result" style="width: 35%; display: inline-block;" />&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/qD8by0l.png?1" title="Game Finished"/>
+<img src="https://i.imgur.com/Kiw0SfG.png?1" title="source: imgur.com" />
 
 ### History
 
