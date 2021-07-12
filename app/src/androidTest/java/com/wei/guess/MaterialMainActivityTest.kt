@@ -1,6 +1,5 @@
 package com.wei.guess
 
-import android.content.res.Resources
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -11,18 +10,16 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-// 宣告為一個測試案例
+// Declare for test case
 @RunWith(AndroidJUnit4::class)
 class MaterialMainActivityTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(MaterialMainActivity::class.java)
 
-    // 宣告為單元測試
-    // 測試輸入驗證功能
-    @Test
+    // <summary> Test Input Unit Components </summary>
+    @Test // Declare for test
     fun guessWrong() {
-        var resources: Resources? = null
         val testInput = "1234"
         var answer = ""
         var output = ""
@@ -33,7 +30,6 @@ class MaterialMainActivityTest {
 
         // 產生驗證字串
         activityRule.scenario.onActivity {
-            resources = it.resources
             answer = it.secretNumber.answer
             output = it.secretNumber.validate()
         }

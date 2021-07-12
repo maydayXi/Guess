@@ -16,18 +16,24 @@ import kotlinx.android.synthetic.main.activity_record.*
 
 class RecordActivity : AppCompatActivity() {
 
+    // region class member
+    private val TAG = RecordActivity::class.java.simpleName
+
     // Database Manipulate instance
     private var repository = DBRepository(this)
-    // Data adapter instance
-    private lateinit var adapter: RecordAdapter
-    // Data container
-    private var recordSet = ArrayList<RecordViewModel>()
 
     // Variable
     private var guess_cnt = 0       // User Guess Times
-    private var rank = ""           // User Rank
-    private var count = ""          // User Record Times
-    private var datetime = ""       // User play Datetime
+    private var rank = ""
+    private var count = ""
+    private var datetime = ""
+
+    // Data container
+    private var recordSet = arrayListOf<RecordViewModel>()
+
+    // Data adapter instance
+    var adapter = RecordAdapter(recordSet)
+    // endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,27 +53,56 @@ class RecordActivity : AppCompatActivity() {
                         _, _ ->
                     // 刪除所有紀錄
                     ioThread { repository.deleteAllRecord() }
-//                    reset()
-//                    Toast.makeText(this,
-//                        "Record delete finished",
-//                        Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "onCreate: ")
+                    reset()
+                    Toast.makeText(this,
+                        "Record delete finished",
+                        Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton(getString(R.string.dialog_btn_no), null)
                 .show()
         }
     }
 
+    // region lifecycle
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: ")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart: ")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: ")
+    }
+    // endregion
+
+    // region initial
     // <summary> Initial Variable </summary>
     private fun initialData() {
         rank = getString(R.string.lbl_rank)
         count = getString(R.string.lbl_count)
         datetime = getString(R.string.lbl_datetime)
-        // Add Record Column name
-        recordSet.add(RecordViewModel(
-            rank = rank,
-            count = count,
-            datetime = datetime)
-        )
+        recordSet.add(RecordViewModel(rank, count, datetime))
 
         // Add Record Data
         ioThread {
@@ -108,10 +143,12 @@ class RecordActivity : AppCompatActivity() {
             adapter = adapter
         }
     }
+    // endregion
 
     // <summary> 重設排名資料 </summary>
     private fun reset() {
         adapter.reset(rank = rank, count = count, datetime = datetime)
+        rycRecord.adapter = adapter
     }
 
     // <summary> 返回按鈕事件 </summary>

@@ -40,6 +40,8 @@ class RecordAdapter(private var dataSet: ArrayList<RecordViewModel>)
 
     // <summary> 刪除所有資料 </summary>
     fun reset(rank: String, count: String, datetime: String) {
+
+        Log.d(RecordAdapter::class.java.simpleName, "reset: ")
         dataSet = arrayListOf(
             RecordViewModel(
                 rank = rank,

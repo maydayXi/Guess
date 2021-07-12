@@ -2,6 +2,7 @@ package com.wei.guess
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -20,9 +21,13 @@ import java.util.*
 
 class MaterialMainActivity : AppCompatActivity() {
 
+    // region class member
+    // For log.d Method
+    private val TAG = MaterialMainActivity::class.java.simpleName
+
     private lateinit var binding: ActivityMaterialMainBinding
     // SecretNumber Instance
-     val secretNumber = SecretNumber()
+    val secretNumber = SecretNumber()
     // Result View Model Dataset
     private var dataSet = arrayListOf<ResultViewModel>()
     // Database Manipulation Instance
@@ -37,6 +42,7 @@ class MaterialMainActivity : AppCompatActivity() {
     private var guess = ""      // User Input
     private var result = ""     // SecretNumber Output
     private var now = ""        // Now string
+    // endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +75,43 @@ class MaterialMainActivity : AppCompatActivity() {
                 .setNegativeButton(getString(R.string.dialog_btn_no), null)
                 .show()
         }
+
+        Log.d(TAG, "onCreate: ")
     }
 
+    // region lifecycle
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: ")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart: ")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: ")
+    }
+    // endregion
+
+    // region button click event
     // <summary> 驗證按鈕事件 </summary>
     fun validateInput(view: View) {
         var result = ""
@@ -133,7 +174,9 @@ class MaterialMainActivity : AppCompatActivity() {
         )
         edtInput.setText("")
     }
+    // endregion
 
+    // region initial
     // <summary> Initial View Components </summary>
     private fun precessView() {
         rycResult.apply {
@@ -171,4 +214,5 @@ class MaterialMainActivity : AppCompatActivity() {
         secretNumber.guess_cnt = 0
         secretNumber.generateSecret()
     }
+    // endregion
 }
