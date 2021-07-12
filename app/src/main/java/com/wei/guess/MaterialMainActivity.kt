@@ -62,7 +62,7 @@ class MaterialMainActivity : AppCompatActivity() {
         resetViews()
 
         // 重玩事件
-        binding.fab.setOnClickListener {
+        binding.fabReplay.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.title_replay))
                 .setMessage(getString(R.string.msg_replay))
