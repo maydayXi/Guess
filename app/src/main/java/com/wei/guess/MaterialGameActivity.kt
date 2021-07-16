@@ -2,6 +2,7 @@ package com.wei.guess
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -9,35 +10,40 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.wei.guess.adapters.RecordAdapter
 import com.wei.guess.adapters.ResultAdapter
-import com.wei.guess.databinding.ActivityMaterialMainBinding
+import com.wei.guess.databinding.ActivityMaterialGameBinding
 import com.wei.guess.db.DBRepository
 import com.wei.guess.db.RecordDataModel
 import com.wei.guess.db.ioThread
-import com.wei.guess.viewmodels.ResultViewModel
+import com.wei.guess.viewmodels.DataViewModel as VM
 import kotlinx.android.synthetic.main.content_material_main.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MaterialMainActivity : AppCompatActivity() {
+class MaterialGameActivity : AppCompatActivity() {
 
     // region class member
     // For log.d Method
-    private val TAG = MaterialMainActivity::class.java.simpleName
+    private val TAG = MaterialGameActivity::class.java.simpleName
+    private val DATASET_KEY = "DATASET_KEY"
+    private val USER_INPUT_KEY = "USER_INPUT_KEY"
+    private val ANSWER_KEY = "ANSWER_KEY"
 
-    private lateinit var binding: ActivityMaterialMainBinding
+    private lateinit var binding: ActivityMaterialGameBinding
     // SecretNumber Instance
     val secretNumber = SecretNumber()
     // Result View Model Dataset
-    private var dataSet = arrayListOf<ResultViewModel>()
+    private var dataSet = arrayListOf<VM.ResultViewModel>()
     // Database Manipulation Instance
     private lateinit var repository: DBRepository
     // Data Adapter Instance
-    private lateinit var dataAdapter: ResultAdapter
+    private lateinit var resultAdapter: ResultAdapter
 
     // Local Variable
     private val dateFormat =    // Date Format Instance
         SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+
     private var count = ""      // User Guess Count
     private var guess = ""      // User Input
     private var result = ""     // SecretNumber Output
@@ -47,7 +53,7 @@ class MaterialMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMaterialMainBinding.inflate(layoutInflater)
+        binding = ActivityMaterialGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
@@ -77,6 +83,43 @@ class MaterialMainActivity : AppCompatActivity() {
         }
 
         Log.d(TAG, "onCreate: ")
+    }
+
+    // <summary> Save Game data </summary>
+    // <param name='outState'> Save Game Data Bundle Instance </param>
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(USER_INPUT_KEY, edtInput.text.toString())
+        outState.putParcelableArrayList(DATASET_KEY,
+            resultAdapter.getDataset())
+        outState.putString(ANSWER_KEY, secretNumber.answer)
+        Log.d(TAG, "onSaveInstanceState: User Input is ${edtInput.text}" +
+                "\n Dataset size is ${resultAdapter.itemCount}" +
+                "\n secret number is ${secretNumber.answer}")
+        super.onSaveInstanceState(outState)
+    }
+
+    // <summary> View Data restore </summary>
+    // <param name='saveInstanceState'> For save view data </param>
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        // restore user input
+        edtInput.setText(
+            savedInstanceState.getString(USER_INPUT_KEY, ""))
+
+        // restore guess data
+        dataSet = savedInstanceState.getParcelableArrayList(DATASET_KEY)
+            ?: arrayListOf(VM.initialResultViewModel(count, guess, result))
+        resultAdapter = ResultAdapter(dataSet)
+        rycResult.adapter = resultAdapter
+
+        // restore secret number
+        secretNumber.answer = savedInstanceState.getString(ANSWER_KEY
+            , "")
+
+        Log.d(TAG, "onRestoreInstanceState: Dataset Size is ${dataSet.size}" +
+                "\nUser Input is ${edtInput.text}" +
+                "\nsecret number is ${secretNumber.answer}")
+
+        super.onRestoreInstanceState(savedInstanceState)
     }
 
     // region lifecycle
@@ -153,7 +196,10 @@ class MaterialMainActivity : AppCompatActivity() {
                         ioThread { repository.insertRecord(record) }
                         // 導向紀錄畫面
                         val intent = Intent(this, RecordActivity::class.java)
-                        intent.putExtra("GuessCount", secretNumber.guess_cnt)
+                        val bundle = Bundle()
+                        bundle.putInt("GuessCount", secretNumber.guess_cnt)
+                        bundle.putInt("ActivityEntry", ActivityCode.GAME_ACTIVITY.ordinal)
+                        intent.putExtras(bundle)
                         startActivity(intent)
                     }.show()
                 }
@@ -168,9 +214,12 @@ class MaterialMainActivity : AppCompatActivity() {
 
         // 視覺元件處理
         // 新增一筆結果
-        dataAdapter.add(
-            ResultViewModel(count = secretNumber.guess_cnt.toString(),
-            guess = secretNumber.input, result = result)
+        resultAdapter.add(
+            VM.ResultViewModel(
+                count = secretNumber.guess_cnt.toString(),
+                guess = secretNumber.input,
+                result = result
+            )
         )
         edtInput.setText("")
     }
@@ -184,8 +233,8 @@ class MaterialMainActivity : AppCompatActivity() {
             setHasFixedSize(true)
             addItemDecoration(DividerItemDecoration(this.context,
                 DividerItemDecoration.VERTICAL))
-            dataAdapter = ResultAdapter(dataSet)
-            adapter = dataAdapter
+            resultAdapter = ResultAdapter(dataSet)
+            adapter = resultAdapter
         }
     }
 
@@ -197,10 +246,8 @@ class MaterialMainActivity : AppCompatActivity() {
 
         // Initial First Row Data
         dataSet.add(
-            ResultViewModel(
-                count = count,
-                guess = guess,
-                result = result
+            VM.initialResultViewModel(
+                count, guess, result
             )
         )
     }
@@ -209,7 +256,7 @@ class MaterialMainActivity : AppCompatActivity() {
     private fun resetViews() {
         edtInput.setText("")
         edtInput.isEnabled = true
-        dataAdapter.reset(count, guess, result)
+        resultAdapter.reset(count, guess, result)
         secretNumber.input = ""
         secretNumber.guess_cnt = 0
         secretNumber.generateSecret()

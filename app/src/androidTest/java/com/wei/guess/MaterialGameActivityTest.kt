@@ -15,10 +15,10 @@ import org.junit.runner.RunWith
 
 // Declare for test case
 @RunWith(AndroidJUnit4::class)
-class MaterialMainActivityTest {
+class MaterialGameActivityTest {
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(MaterialMainActivity::class.java)
+    val activityRule = ActivityScenarioRule(MaterialGameActivity::class.java)
 
     private lateinit var device: UiDevice
 
@@ -81,7 +81,7 @@ class MaterialMainActivityTest {
         onView(withText(R.string.dialog_btn_yes)).perform(click())
         // get replay guess count
         activityRule.scenario.onActivity { test_count = it.secretNumber.guess_cnt }
-        // Compare count
+        // Check count
         Assert.assertEquals(0, test_count)
     }
 

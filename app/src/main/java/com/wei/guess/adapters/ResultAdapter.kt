@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wei.guess.R
-import com.wei.guess.viewmodels.ResultViewModel
+import com.wei.guess.viewmodels.DataViewModel
 import kotlinx.android.synthetic.main.row_result_view.view.*
 
 // <summary> Result Data Adapter </summary>
 // <param name="dataSet"> 要介接的資料 </summary>
-class ResultAdapter(private var dataSet: ArrayList<ResultViewModel>):
+class ResultAdapter(private var dataSet: ArrayList<DataViewModel.ResultViewModel>):
     RecyclerView.Adapter<ResultAdapter.ViewHolder>() {
 
     // <summary> Initial View Component </summary>
@@ -47,10 +47,13 @@ class ResultAdapter(private var dataSet: ArrayList<ResultViewModel>):
 
     // <summary> 新增資料 </summary>
     // <param name="item"> [count, guess, result] </param>
-    fun add(result: ResultViewModel) {
+    fun add(result: DataViewModel.ResultViewModel) {
         dataSet.add(result)
         notifyItemInserted(dataSet.size)
     }
+
+    // <summary> 取得資料集 </summary>
+    fun getDataset() = dataSet
 
     // <summary> 重設資料 </summary>
     // <param name="count"> 第一欄名稱 </param>
@@ -58,10 +61,8 @@ class ResultAdapter(private var dataSet: ArrayList<ResultViewModel>):
     // <param name="result"> 第三欄名稱 </param>
     fun reset(count: String, guess: String, result: String) {
         dataSet = arrayListOf(
-            ResultViewModel(
-                count = count,
-                guess = guess,
-                result = result
+            DataViewModel.initialResultViewModel(
+                count = count, guess = guess, result = result
             )
         )
         notifyDataSetChanged()

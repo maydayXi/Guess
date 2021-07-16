@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wei.guess.R
-import com.wei.guess.viewmodels.RecordViewModel
+import com.wei.guess.viewmodels.DataViewModel
 import kotlinx.android.synthetic.main.row_record_view.view.*
 
 // <summary> Record Data Adapter </summary>
 // <param name="dataSet"> 要介接的資料 </param>
-class RecordAdapter(private var dataSet: ArrayList<RecordViewModel>)
+class RecordAdapter(private var dataSet: ArrayList<DataViewModel.RecordViewModel>)
     : RecyclerView.Adapter<RecordAdapter.ViewHolder>() {
 
     // <summary> Initial View Component </summary>
@@ -40,13 +40,10 @@ class RecordAdapter(private var dataSet: ArrayList<RecordViewModel>)
 
     // <summary> 刪除所有資料 </summary>
     fun reset(rank: String, count: String, datetime: String) {
-
         Log.d(RecordAdapter::class.java.simpleName, "reset: ")
         dataSet = arrayListOf(
-            RecordViewModel(
-                rank = rank,
-                count = count,
-                datetime = datetime
+            DataViewModel.initialRecordViewModel(
+                rank = rank, count = count, datetime = datetime
             )
         )
         notifyDataSetChanged()

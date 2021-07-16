@@ -26,4 +26,7 @@
     <string name="fab_delete">Delete</string>
     <string name="dialog_title_delete">Delete</string>
     <string name="dialog_msg_delete">Will be delete all record</string>
+    <string name="btn_quit">Quit Game</string>
+    <string name="btn_play">Play Game</string>
+    <string name="btn_record">Game Record</string>
 </resources>

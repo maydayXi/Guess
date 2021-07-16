@@ -27,4 +27,7 @@
     <string name="fab_delete">刪除資料</string>
     <string name="dialog_title_delete">刪除</string>
     <string name="dialog_msg_delete">刪除所有資料</string>
+    <string name="btn_quit">離開遊戲</string>
+    <string name="btn_play">開始遊戲</string>
+    <string name="btn_record">遊戲紀錄</string>
 </resources>

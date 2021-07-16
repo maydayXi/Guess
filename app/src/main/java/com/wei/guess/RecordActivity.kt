@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wei.guess.adapters.RecordAdapter
 import com.wei.guess.db.DBRepository
 import com.wei.guess.db.ioThread
-import com.wei.guess.viewmodels.RecordViewModel
+import com.wei.guess.viewmodels.DataViewModel
 import kotlinx.android.synthetic.main.activity_record.*
 
 class RecordActivity : AppCompatActivity() {
@@ -29,10 +29,11 @@ class RecordActivity : AppCompatActivity() {
     private var datetime = ""
 
     // Data container
-    private var recordSet = arrayListOf<RecordViewModel>()
+    private var recordSet = arrayListOf<DataViewModel.RecordViewModel>()
 
     // Data adapter instance
     var adapter = RecordAdapter(recordSet)
+
     // endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,16 +103,22 @@ class RecordActivity : AppCompatActivity() {
         rank = getString(R.string.lbl_rank)
         count = getString(R.string.lbl_count)
         datetime = getString(R.string.lbl_datetime)
-        recordSet.add(RecordViewModel(rank, count, datetime))
+        recordSet.add(DataViewModel.initialRecordViewModel(
+            rank = rank, count = count, datetime = datetime
+        ))
 
         // Add Record Data
         ioThread {
             val record = repository.fetRankRecord()
             record.forEachIndexed {
                     index, item ->
-                    recordSet.add(RecordViewModel("${index + 1}",
-                        item.count.toString(),
-                        item.datetime))
+                    recordSet.add(
+                        DataViewModel.RecordViewModel(
+                            "${index + 1}",
+                            item.count.toString(),
+                            item.datetime
+                        )
+                    )
             }
         }
     }
@@ -122,13 +129,17 @@ class RecordActivity : AppCompatActivity() {
         setSupportActionBar(RecordToolbar)
 
         // 上一個畫面傳來的資料：使用者猜次數
+        val entry = intent.getIntExtra("ActivityEntry", -1)
         guess_cnt = intent.getIntExtra("GuessCount", 0)
 
-        // 顯示本次猜的次數
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.record_dialog_title))
-            .setMessage("$guess_cnt ${getString(R.string.record_dialog_times)}")
-            .show()
+        // 如果從遊戲畫面進入
+        if(entry == 1) {
+            // 顯示本次猜的次數
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.record_dialog_title))
+                .setMessage("$guess_cnt ${getString(R.string.record_dialog_times)}")
+                .show()
+        }
 
         // Initial Recycler View
         rycRecord.apply {
